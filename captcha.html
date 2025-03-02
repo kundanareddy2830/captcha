@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with CAPTCHA</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+           background-color: #D9AFD9;
+background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+             margin: 0;
+            color: #333; /* Darker text color */
+        }
+
+        /* Login container styles */
+        .login-container {
+            background: background-color: #D9AFD9;
+background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+ /* White background */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Title and input fields */
+        h2 {
+            color: #333; /* Dark text */
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ccc; /* Light Gray border */
+            border-radius: 10px;
+            font-size: 1em;
+            background-color: #f9f9f9; /* Light background for inputs */
+            color: #333; /* Dark text */
+            box-sizing: border-box; /* Ensures padding doesn't affect the width */
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-field:focus {
+            border: 2px solid #007bff; /* Bright Blue border on focus */
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* CAPTCHA container */
+        .captcha-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .captcha {
+            font-size: 24px;
+            font-weight: bold;
+            background: #e0e0e0; /* Soft Gray background */
+            padding: 10px;
+            display: inline-block;
+            letter-spacing: 5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .refresh-btn {
+            cursor: pointer;
+            margin-left: 15px;
+            background: #007bff; /* Bright Blue */
+            color: white;
+            padding: 7px 15px;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: #0056b3; /* Darker Blue for hover */
+            transform: scale(1.1);
+        }
+
+        /* Button styles */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #007bff; /* Bright Blue */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background 0.3s, box-shadow 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #0056b3; /* Darker Blue for hover */
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Status message */
+        #status {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Animation for the login container */
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" class="input-field" placeholder="Username">
+        <input type="password" id="password" class="input-field" placeholder="Password">
+        
+        <div class="captcha-container">
+            <span id="captcha" class="captcha"></span>
+            <button class="refresh-btn" onclick="generateCaptcha()">🔄</button>
+        </div>
+        <input type="text" id="captchaInput" class="input-field" placeholder="Enter CAPTCHA">
+        
+        <button class="btn" onclick="validateLogin()">Login</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        let generatedCaptcha;
+
+        // Generate a random CAPTCHA
+        function generateCaptcha() {
+            generatedCaptcha = Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById("captcha").textContent = generatedCaptcha;
+        }
+
+        // Validate login
+        function validateLogin() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const captchaInput = document.getElementById("captchaInput").value.toUpperCase();
+            
+            if (!username || !password) {
+                document.getElementById("status").textContent = "Please enter username and password!";
+                return;
+            }
+            
+            if (captchaInput !== generatedCaptcha) {
+                document.getElementById("status").textContent = "Incorrect CAPTCHA. Try again!";
+                generateCaptcha(); // Refresh CAPTCHA on failure
+                return;
+            }
+
+            document.getElementById("status").textContent = "Login successful!";
+            document.getElementById("status").style.color = "green";
+        }
+
+        // Generate initial CAPTCHA on page load
+        generateCaptcha();
+    </script>
+
+</body>
+</html>
