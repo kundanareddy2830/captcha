@@ -9,7 +9,6 @@ This project is a **Custom CAPTCHA Login System** that enhances security by requ
  
  ✨ Features
 - 🧮 **Custom CAPTCHA Generation:** Generates a random alphanumeric CAPTCHA for each login attempt.
-- 💪 **Password Strength Meter:** Visual feedback on password strength using color indicators.
 - 🎨 **Responsive Design:** Built with **Tailwind CSS** for a modern and responsive UI.
 - 🛡️ **Validation & Error Handling:** Ensures all fields are filled and CAPTCHA is entered correctly.
 - ⚡ **Smooth UI/UX:** Includes animations and interactive elements for a polished user experience.
